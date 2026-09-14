@@ -70,7 +70,7 @@ Custo: ~91 tokens sempre presentes por sessão.
 hooks/              ativação, troca de nível, statusline
 skills/ceta/        SKILL.md — única fonte de verdade do protocolo
 commands/           /ceta
-referencia/         teoria completa do modelo
+referencia/         teoria completa do modelo e as 25 referências que a embasam
 ```
 
 Editar o protocolo significa editar `skills/ceta/SKILL.md`; o hook lê esse arquivo em runtime, sem duplicação.
@@ -123,10 +123,18 @@ parágrafo, antes de mexer no código:
 
 Isso não prova redução de carga cognitiva — não há medição direta de carga
 em pessoas aqui, só indicadores (tokens, edição sem confirmação,
-retrabalho). O embasamento teórico, com o que a literatura sustenta e o que
-não cobre, está em
+retrabalho). Para reproduzir: `python testes/medir.py --fixture frete -n 5`.
+
+## Embasamento científico
+
+25 referências revisadas por pares — carga cognitiva e sinalização
+(Sweller, Chandler & Sweller, Cowan, Joshi & Vogel), comunicação em loop
+fechado (readback na aviação, SBAR, I-PASS) e ambiguidade em interação
+humano-IA (Horvitz, ClarifyGPT, CLAMBER) — cada uma marcada como
+sustentação **direta** ou **por analogia**, com os contrapontos (Kalyuga,
+Monan, custo de interrupção) e o que a literatura não cobre listados à
+parte. Está em
 [`referencia/embasamento-cientifico.md`](referencia/embasamento-cientifico.md).
-Para reproduzir: `python testes/medir.py --fixture frete -n 5`.
 
 ## Crédito
 
