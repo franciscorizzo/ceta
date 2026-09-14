@@ -30,11 +30,13 @@ IGNORAR = {"__pycache__", ".pytest_cache", "cenario.json"}
 ENV = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
 
 
-def rodar_claude(cwd, prompt, modelo, desligar_plugin, resume=None):
+def rodar_claude(cwd, prompt, modelo, desligar_plugin, resume=None, plugin_dir=None):
     cmd = [CLAUDE, "-p", prompt, "--output-format", "json", "--model", modelo,
            "--allowedTools", *TOOLS]
-    if desligar_plugin:
+    if desligar_plugin or plugin_dir:
         cmd += ["--settings", DESLIGA]
+    if plugin_dir:
+        cmd += ["--plugin-dir", str(plugin_dir)]
     if resume:
         cmd += ["--resume", resume]
     p = subprocess.run(cmd, cwd=cwd, capture_output=True, timeout=900)
@@ -68,13 +70,14 @@ def formato(texto):
     }
 
 
-def um_run(braco, i, fixture, cen, aceite, modelo):
+def um_run(braco, i, fixture, cen, aceite, modelo, plugin_dir=None):
     cwd = tempfile.mkdtemp(prefix=f"ceta-{fixture.name}-{braco}{i}-")
     shutil.copytree(fixture, cwd, dirs_exist_ok=True, ignore=shutil.ignore_patterns(*IGNORAR))
     turnos, msg, sid, correcoes, editou_1o = [], cen["prompt"], None, 0, False
     for n in range(MAX_TURNOS):
         antes = snapshot(cwd)
-        d = rodar_claude(cwd, msg, modelo, braco == "baseline", resume=sid)
+        d = rodar_claude(cwd, msg, modelo, braco == "baseline", resume=sid,
+                         plugin_dir=plugin_dir if braco == "skill" else None)
         turnos.append(d)
         sid = d.get("session_id") or sid
         editou = snapshot(cwd) != antes
@@ -117,18 +120,21 @@ def main():
     ap.add_argument("--modelo", default="opus")
     ap.add_argument("--fixture", default="cpf")
     ap.add_argument("--paralelo", type=int, default=5)
+    ap.add_argument("--bracos", default="baseline,skill")
+    ap.add_argument("--plugin-dir", help="variante da skill; desliga o plugin instalado no braço skill")
+    ap.add_argument("--rotulo", default="")
     a = ap.parse_args()
 
     fixture = AQUI / "fixtures" / a.fixture
     aceite = AQUI / "aceite" / a.fixture
     cen = json.loads((fixture / "cenario.json").read_text(encoding="utf-8"))
-    jobs = [(b, i) for b in ("baseline", "skill") for i in range(1, a.n + 1)]
+    jobs = [(b, i) for b in a.bracos.split(",") for i in range(1, a.n + 1)]
     with cf.ThreadPoolExecutor(a.paralelo) as ex:
-        res = list(ex.map(lambda j: um_run(j[0], j[1], fixture, cen, aceite, a.modelo), jobs))
+        res = list(ex.map(lambda j: um_run(j[0], j[1], fixture, cen, aceite, a.modelo, a.plugin_dir), jobs))
 
     saida = AQUI / "resultados"
     saida.mkdir(exist_ok=True)
-    arq = saida / f"{time.strftime('%Y%m%d-%H%M%S')}-{a.fixture}.json"
+    arq = saida / f"{time.strftime('%Y%m%d-%H%M%S')}-{a.fixture}{'-' + a.rotulo if a.rotulo else ''}.json"
     arq.write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
 
     ok = {b: [r for r in res if r["braco"] == b and not r["erro"]] for b in ("baseline", "skill")}
