@@ -4,17 +4,18 @@ Plugin do Claude Code que aplica o **protocolo CETA** — Contexto, Erro, Tentou
 
 ## A inversão
 
-No modelo original, quem pede ajuda preenche os quatro campos. Aqui é o contrário: **o Claude preenche**. Você fala solto, inclusive em duas palavras; ele investiga o repositório, monta os quatro campos e devolve um *readback* de quatro linhas antes de agir.
+No modelo original, quem pede ajuda preenche os quatro campos. Aqui é o contrário: **o Claude preenche**. Você fala solto, inclusive em duas palavras; ele investiga o repositório, monta os quatro campos e devolve um *readback* — um parágrafo curto, com o achado que decide em negrito e uma pergunta só — antes de agir.
 
 Jogar um formulário na tela do usuário aumentaria justamente a carga cognitiva que o protocolo existe para reduzir.
 
 ```
 você:  nao salva
 
-       C: cadastro de clientes, POST /api/users
-       E: não salva; users.py:11 estoura ValueError sem catch → 500, esperado 201
-       T: supus máscara → validators.py:5 exige \d{11} → rejeita, ValueError sem catch
-       A: corrijo a validação para aceitar máscara ou mudo o front pra enviar limpo?
+       No cadastro, `POST /api/users` devolve `500` em vez de `201`. Supus
+       payload vazio, mas ele chega íntegro — **o regex `^\d{11}$` em
+       `app/validators.py:3` rejeita a máscara que o formulário envia**.
+
+       Normalizo no backend e gravo só os dígitos, ou aceito a máscara?
 
 você:  1
 ```

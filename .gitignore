@@ -2,3 +2,7 @@ node_modules/
 *.log
 .DS_Store
 Thumbs.db
+
+testes/resultados/
+__pycache__/
+.pytest_cache/
