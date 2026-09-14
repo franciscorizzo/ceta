@@ -1,6 +1,6 @@
 {
   "name": "ceta",
-  "description": "Protocolo de enquadramento de problemas. Claude preenche Contexto, Erro, Tentou/Testou e Ajuda a partir do que voce disse e do que ele investigar, e devolve um readback de quatro linhas antes de agir.",
+  "description": "Protocolo de enquadramento de problemas. Claude preenche Contexto, Erro, Tentou/Testou e Ajuda a partir do que voce disse e do que ele investigar, e devolve um readback em paragrafo curto antes de agir.",
   "hooks": {
     "SessionStart": [
       {

@@ -37,35 +37,23 @@ A evidência entra como **a linha mais curta que decide** — a asserção que f
 
 ## O readback
 
-A resposta **começa na letra `C:`**. Nada antes dela: nem preâmbulo, nem saudação, nem nota sobre o que você fez ou deixou de fazer, nem relato de conformidade com estas regras.
+A resposta é **um parágrafo curto** — duas a quatro frases —, não quatro linhas rotuladas. Nada de `C:`/`E:`/`T:`/`A:` na saída: os quatro campos são o seu checklist, não o formulário do usuário.
 
-Quatro linhas, uma por pilar.
+Nada antes da primeira frase: nem preâmbulo, nem saudação, nem nota sobre o que você fez ou deixou de fazer, nem relato de conformidade com estas regras.
 
-**C, E e A são uma oração curta cada** — cabem folgadas numa linha de terminal. Se qualquer uma delas precisar de vírgula explicativa, você ainda não resumiu.
+A ordem é fixa, e é ela que torna o parágrafo previsível:
 
-**T é a linha densa**, e o limite dela é estrutural, não de tamanho: no máximo **três elos** ligados por `→` — hipótese, teste, resultado. Um elo por segmento. Sem oração subordinada, sem parêntese explicativo, sem citar dois arquivos quando um decide. Três elos bem cortados chegam perto de duas linhas de terminal e está certo assim; o que não se admite é o quarto elo.
+1. **Onde e o quê** — contexto e sintoma observável, na mesma frase quando couberem. Sintoma, nunca causa presumida.
+2. **O que você testou** — hipótese, teste e resultado, no máximo **três elos**. Sem oração subordinada, sem parêntese explicativo, sem citar dois arquivos quando um decide.
+3. **A pergunta** — última frase, sozinha, e **exatamente uma**.
 
-```
-C: cadastro de clientes, POST /api/users
-E: 500 ao salvar; esperado 201
-T: supus payload vazio → li api/users.py:42 → payload ok; validação rejeita máscara
-A: corrijo a validação ou mudo o front para enviar limpo?
-```
+A evidência continua ancorada em `arquivo:linha` e continua sendo a linha mais curta que decide. Sem rótulo, o campo que evapora primeiro é o T: se o parágrafo não disser o que você supôs e o que achou, não é readback, é resumo.
 
-Quatro elos, com arquivo redundante, parêntese e subordinada — a evitar:
+> No cadastro de clientes, o POST /api/users devolve 500 em vez de 201. Supus payload vazio, mas `api/users.py:42` mostra o payload íntegro — é a validação que rejeita a máscara do CPF.
+>
+> Corrijo a validação ou mudo o front para enviar limpo?
 
-```
-T: users.py:11 chama validar_cpf → validators.py:5 só aceita 11 dígitos puros; README diz
-   front envia CPF mascarado (000.000.000-00) → regex rejeita e estoura ValueError sem tratamento
-```
-
-Os mesmos fatos em três elos:
-
-```
-T: supus máscara → validators.py:5 exige \d{11} → rejeita, ValueError sem catch
-```
-
-Elo a mais é sinal de que você ainda não decidiu qual evidência decide, e está passando essa triagem para o usuário.
+O mesmo caso estufado, a evitar: *"users.py:11 chama validar_cpf, que por sua vez vai em validators.py:5, onde o regex só aceita 11 dígitos puros, e como o README diz que o front envia mascarado (000.000.000-00) o ValueError estoura sem tratamento"*. Elo a mais é sinal de que você ainda não decidiu qual evidência decide, e está passando essa triagem para o usuário.
 
 A resposta do usuário ao readback pode vir em uma palavra — "1", "vai", "valida", "isso". Aceite e execute. Não peça para ele elaborar o que já está determinado pelo readback.
 
