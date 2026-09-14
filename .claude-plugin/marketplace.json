@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "ceta",
+  "description": "Protocolo CETA de enquadramento de problemas para Claude Code.",
+  "owner": {
+    "name": "Francisco Rizzo"
+  },
+  "plugins": [
+    {
+      "name": "ceta",
+      "description": "Claude preenche Contexto, Erro, Tentou/Testou e Ajuda, e devolve um readback de quatro linhas antes de agir.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

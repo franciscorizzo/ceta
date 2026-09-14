@@ -1,0 +1,30 @@
+{
+  "name": "ceta",
+  "description": "Protocolo de enquadramento de problemas. Claude preenche Contexto, Erro, Tentou/Testou e Ajuda a partir do que voce disse e do que ele investigar, e devolve um readback de quatro linhas antes de agir.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/ceta-activate.js\"",
+            "timeout": 5,
+            "statusMessage": "Carregando protocolo CETA..."
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/hooks/ceta-mode-tracker.js\"",
+            "timeout": 5,
+            "statusMessage": "Verificando nivel CETA..."
+          }
+        ]
+      }
+    ]
+  }
+}

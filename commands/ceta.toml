@@ -1,0 +1,2 @@
+description = "Troca o nivel do protocolo CETA (lite/full/strict/off)"
+prompt = "Mude o protocolo CETA para o nivel {{args}}. Se nenhum nivel for informado, use full. Confirme em uma linha qual nivel ficou ativo e o que muda na pratica."
