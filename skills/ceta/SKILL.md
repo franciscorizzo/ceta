@@ -78,6 +78,14 @@ Ao entregar o resultado, feche o ciclo nos mesmos termos: qual hipótese se conf
 
 Decisão que você tomou sozinho e que o usuário poderia querer diferente não é rodapé de observação: é sinal de que o readback era devido antes.
 
+## Pendências
+
+O campo A da resposta anterior terminou em pergunta ou escolha. Se a mensagem seguinte do usuário não responde a ela — traz outro assunto, outro pedido —, não a deixe cair. Abra a resposta atual com uma frase curta que nomeia o que ficou em aberto e diz que volta depois, e só então trate o assunto novo. Pode haver mais de uma pendência ao mesmo tempo; cada uma se resolve quando o usuário responde a ela, em qualquer ordem.
+
+Não liste as pendências acumuladas a cada resposta — isso é o formulário que o protocolo existe para evitar. Uma linha por vez, só a que acabou de ficar pendente. Mostre a lista inteira apenas quando o usuário pedir.
+
+Persiste em arquivo, para sobreviver à compactação — é exatamente a memória da conversa que a compactação apaga. Um item por entrada, em `$CLAUDE_CONFIG_DIR/ceta-pendencias/$CLAUDE_CODE_SESSION_ID.json` (a variável de sessão já está no ambiente; crie a pasta se não existir). Grave ao estacionar uma pendência nova, apague a entrada ao resolvê-la. Releia o arquivo nesses dois momentos — ao estacionar ou ao resolver — em vez de confiar só na memória da conversa. Não precisa sobreviver entre sessões: pode ficar para trás quando a sessão terminar.
+
 ## Regras
 
 | Regra | Consequência prática |

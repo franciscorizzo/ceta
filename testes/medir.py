@@ -30,6 +30,10 @@ IGNORAR = {"__pycache__", ".pytest_cache", "cenario.json"}
 ENV = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
 
 
+ENV_SUBPROCESSO = {k: v for k, v in os.environ.items()
+                    if k not in ("CLAUDE_CODE_SESSION_ID", "CLAUDE_CODE_CHILD_SESSION")}
+
+
 def rodar_claude(cwd, prompt, modelo, desligar_plugin, resume=None, plugin_dir=None):
     cmd = [CLAUDE, "-p", prompt, "--output-format", "json", "--model", modelo,
            "--allowedTools", *TOOLS]
@@ -39,7 +43,9 @@ def rodar_claude(cwd, prompt, modelo, desligar_plugin, resume=None, plugin_dir=N
         cmd += ["--plugin-dir", str(plugin_dir)]
     if resume:
         cmd += ["--resume", resume]
-    p = subprocess.run(cmd, cwd=cwd, capture_output=True, timeout=900)
+    # Sem isolar, o filho herda CLAUDE_CODE_SESSION_ID desta sessão e a
+    # skill "Pendências" escreveria no arquivo da sessão real, não no dele.
+    p = subprocess.run(cmd, cwd=cwd, capture_output=True, timeout=900, env=ENV_SUBPROCESSO)
     try:
         return json.loads(p.stdout.decode("utf-8"))
     except json.JSONDecodeError:
