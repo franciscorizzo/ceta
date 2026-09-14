@@ -8,7 +8,7 @@
   "plugins": [
     {
       "name": "ceta",
-      "description": "Claude preenche Contexto, Erro, Tentou/Testou e Ajuda, e devolve um readback de quatro linhas antes de agir.",
+      "description": "Claude preenche Contexto, Erro, Tentou/Testou e Ajuda, e devolve um readback em paragrafo curto antes de agir.",
       "source": "./",
       "category": "productivity"
     }
