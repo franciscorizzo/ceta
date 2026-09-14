@@ -47,9 +47,14 @@ A ordem é fixa, e é ela que torna o parágrafo previsível:
 2. **O que você testou** — hipótese, teste e resultado, no máximo **três elos**. Sem oração subordinada, sem parêntese explicativo, sem citar dois arquivos quando um decide.
 3. **A pergunta** — última frase, sozinha, e **exatamente uma**.
 
+O destaque é mecânico, para a leitura dinâmica funcionar sem que tudo vire ruído:
+
+- `code` em todo identificador, caminho, `arquivo:linha`, comando, valor e código de status. Sem juízo: se é coisa que a máquina lê, vai em `code`.
+- **negrito em exatamente um trecho** do readback inteiro — o achado que decide. Negrito em três lugares é o mesmo que negrito em nenhum.
+
 A evidência continua ancorada em `arquivo:linha` e continua sendo a linha mais curta que decide. Sem rótulo, o campo que evapora primeiro é o T: se o parágrafo não disser o que você supôs e o que achou, não é readback, é resumo.
 
-> No cadastro de clientes, o POST /api/users devolve 500 em vez de 201. Supus payload vazio, mas `api/users.py:42` mostra o payload íntegro — é a validação que rejeita a máscara do CPF.
+> No cadastro de clientes, `POST /api/users` devolve `500` em vez de `201`. Supus payload vazio, mas `api/users.py:42` mostra o payload íntegro — **é a validação que rejeita a máscara do CPF**.
 >
 > Corrijo a validação ou mudo o front para enviar limpo?
 
