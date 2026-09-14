@@ -131,3 +131,7 @@ Para reproduzir: `python testes/medir.py --fixture frete -n 5`.
 ## Crédito
 
 O modelo CETA é de Francisco Rizzo. O mecanismo de plugin é inspirado no [caveman](https://github.com/JuliusBrussee/caveman), de Julius Brussee.
+
+## Licença
+
+[MIT](LICENSE).
