@@ -75,6 +75,59 @@ referencia/         teoria completa do modelo
 
 Editar o protocolo significa editar `skills/ceta/SKILL.md`; o hook lê esse arquivo em runtime, sem duplicação.
 
+## Medições
+
+`testes/medir.py` roda o mesmo pedido ambíguo duas vezes — com o plugin
+desligado (`baseline`) e ligado (`skill`) — até um teste de aceite oculto
+passar, e mede tokens, custo e quantas vezes o agente editou ou precisou de
+correção. Duas fixtures, 5 execuções cada, 2026-09-14:
+
+| Fixture | O que testa | Correção óbvia | Custo | Editou/decidiu sem perguntar |
+|---|---|---|---|---|
+| `cpf` | default acerta a decisão | é a certa | igual (~US$ 0,30 nos dois) | baseline 5/5, skill 0/5 |
+| `frete` | default erra a decisão | é a errada | skill 20% mais barato | baseline 4/5 editou errado, skill 0/5 |
+
+Quando o default acerta, a skill não economiza — troca por uma mensagem sua
+a mais. Quando o default erra, a skill custa menos, porque o baseline gasta
+tokens corrigindo o próprio erro depois que você percebe.
+
+Um par real da fixture `frete` (bug: `subtotal > 200` deveria ser `>= 200`,
+mas o texto promocional diz "acima de 200" — a correção óbvia está errada):
+
+<table>
+<tr><th>sem skill</th><th>com skill</th></tr>
+<tr><td valign="top">
+
+Aplicou a correção (`>` → `>=`), rodou os testes, e só depois percebeu a
+contradição com o banner promocional — 1101 caracteres, 5 negritos, e a
+pergunta vem depois de já ter editado o código:
+
+> Arrumei o frete grátis... **Correção:** troquei `>` por `>=`, só isso...
+> **Antes de publicar, uma decisão:** `docs/promocoes.md` diz "acima de"...
+> Segui o teste... Qual das duas regras vale?
+
+</td><td valign="top">
+
+Não editou nada — 513 caracteres, 1 negrito, a mesma contradição no
+parágrafo, antes de mexer no código:
+
+> No checkout, um pedido de exatamente `200.00` ainda paga frete... **o
+> código segue o texto da promoção, e quem pede "a partir de 200" é o
+> teste**. Não alterei nada ainda.
+>
+> A regra certa é "a partir de 200" (mudo o código) ou "acima de 200"
+> (corrijo o teste)?
+
+</td></tr>
+</table>
+
+Isso não prova redução de carga cognitiva — não há medição direta de carga
+em pessoas aqui, só indicadores (tokens, edição sem confirmação,
+retrabalho). O embasamento teórico, com o que a literatura sustenta e o que
+não cobre, está em
+[`referencia/embasamento-cientifico.md`](referencia/embasamento-cientifico.md).
+Para reproduzir: `python testes/medir.py --fixture frete -n 5`.
+
 ## Crédito
 
 O modelo CETA é de Francisco Rizzo. O mecanismo de plugin é inspirado no [caveman](https://github.com/JuliusBrussee/caveman), de Julius Brussee.
