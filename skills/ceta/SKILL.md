@@ -50,7 +50,7 @@ A ordem é fixa, e é ela que torna o parágrafo previsível:
 O destaque é mecânico, para a leitura dinâmica funcionar sem que tudo vire ruído:
 
 - `code` em todo identificador, caminho, `arquivo:linha`, comando, valor e código de status. Sem juízo: se é coisa que a máquina lê, vai em `code`.
-- **negrito em exatamente um trecho** do readback inteiro — o achado que decide. Negrito em três lugares é o mesmo que negrito em nenhum.
+- Todo readback tem **um negrito, nunca zero, nunca mais de um** — o achado que decide. Termine a resposta e conte: sem negrito, marque o achado agora; com dois ou mais, escolha um e tire o resto. Negrito em três lugares é o mesmo que negrito em nenhum.
 
 A evidência continua ancorada em `arquivo:linha` e continua sendo a linha mais curta que decide. Sem rótulo, o campo que evapora primeiro é o T: se o parágrafo não disser o que você supôs e o que achou, não é readback, é resumo.
 
