@@ -58,7 +58,10 @@ trecho só; quatro campos como teto, não como meta.
 apoio que ajuda novato fica redundante, às vezes prejudicial, para quem já é
 especialista. O usuário do CETA é especialista no próprio código: estrutura
 demais pode virar carga, não reduzi-la. É o argumento a favor de manter o
-readback curto, não de expandi-lo.
+readback curto, não de expandi-lo. Também é o argumento contra tratar todo
+usuário como iniciante: `hooks/ceta-config.js:9` fixa `full` como nível
+padrão, mas quem já se sabe especialista tem saída própria — `/ceta lite`
+— em vez de precisar convencer a skill a confiar nele.
 
 ## Comunicação em loop fechado e formato fixo
 
@@ -103,7 +106,12 @@ como estrutura de passagem de informação.
 hearback problem". NASA-CR-177398, 417 relatos ASRS. O controlador não
 contestar um readback não garante que ele esteja correto: o readback não
 protege se quem ouve não confere. No CETA, equivale a responder "1" sem ler
-o parágrafo.
+o parágrafo. Pedir confirmação de novo antes de agir reabriria a
+interrupção que o design já decidiu evitar (`SKILL.md`, seção "O
+readback"), então o fechamento fica para depois de agir, não antes: "A
+devolução" relata o que mudou nos mesmos termos da escolha, o mesmo
+padrão de síntese do receptor que o I-PASS usa. Não corrige o risco de o
+usuário não ler a devolução — isso não tem correção de protocolo.
 
 ## Interação humano-IA e ambiguidade
 
